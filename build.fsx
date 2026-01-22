@@ -69,7 +69,8 @@ Target.create "Build" (fun _ ->
 
             MSBuildParams =
             { c.MSBuildParams with
-                Properties = [("Version", release.NugetVersion)] }
+                Properties = [("Version", release.NugetVersion)]
+                DisableInternalBinLog = true }
 
         }) __SOURCE_DIRECTORY__
 )
@@ -84,6 +85,9 @@ Target.create "RunTests" (fun _ ->
             Configuration = DotNet.BuildConfiguration.fromString configuration
             NoBuild = true
             Blame = true
+            MSBuildParams =
+            { c.MSBuildParams with
+                DisableInternalBinLog = true }
         }) __SOURCE_DIRECTORY__
 )
 
@@ -101,7 +105,8 @@ Target.create "NuGet.Pack" (fun _ ->
                 { pack.MSBuildParams with
                     Properties = 
                         [("Version", release.NugetVersion)
-                         ("PackageReleaseNotes", releaseNotes)] }
+                         ("PackageReleaseNotes", releaseNotes)]
+                    DisableInternalBinLog = true }
         }) __SOURCE_DIRECTORY__
 )
 
